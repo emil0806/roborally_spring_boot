@@ -17,7 +17,7 @@ public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int gameID;
+    private Long gameID;
 
     private String boardName;
 
@@ -26,7 +26,6 @@ public class Game {
     private int maxNumberOfPlayers;
 
     public Game(String boardName, int numberOfPlayers, int maxNumberOfPlayers) {
-        this.gameID += 1;
         this.boardName = boardName;
         this.numberOfPlayers = numberOfPlayers;
         this.maxNumberOfPlayers = maxNumberOfPlayers;

@@ -26,7 +26,8 @@ public class GameController {
         String[] gameSplitString = gameString.split(",");
         Game game = new Game(gameSplitString[0], Integer.parseInt(gameSplitString[1]), Integer.parseInt(gameSplitString[2]));
         games.add(game);
-        return ResponseEntity.ok(game.getBoardName());
+        gameRepository.save(game);
+        return ResponseEntity.ok(game.getGameID() + ", "+ game.getBoardName() + ", " + game.getNumberOfPlayers() + ", " + game.getMaxNumberOfPlayers());
     }
 
     @GetMapping("/lobby/{id}")
