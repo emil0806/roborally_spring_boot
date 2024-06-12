@@ -34,7 +34,13 @@ public class GameController {
     public ResponseEntity<String> getGameByID(@PathVariable int id) {
         Game game = findGame(id);
 
-        return ResponseEntity.ok().body(game.getBoardName());
+        return ResponseEntity.ok().body(game.getGameID() + ", "+ game.getBoardName() + ", " + game.getNumberOfPlayers() + ", " + game.getMaxNumberOfPlayers());
+    }
+
+    @PostMapping("/lobby/{id}")
+    public ResponseEntity<String> joinGame(@PathVariable int id) {
+
+        return ResponseEntity.ok().body("hello");
     }
 
     private Game findGame(int gameID) {
@@ -46,11 +52,14 @@ public class GameController {
 
     @GetMapping(value = "/lobby")
     public ResponseEntity<String> listOfGames() {
-        Gson gson = new Gson();
+        String listOfGames = "";
 
-        ArrayList<Game> listOfGames = new ArrayList<>(games);
+        for(Game game : games) {
+          String gameInfo = game.getGameID() + "," + game.getBoardName() + "," + game.getNumberOfPlayers() + "," + game.getMaxNumberOfPlayers() + ";";
+          listOfGames += gameInfo;
+        }
 
-        return ResponseEntity.ok().body(gson.toJson(listOfGames));
+        return ResponseEntity.ok().body(listOfGames);
     }
 
 }
