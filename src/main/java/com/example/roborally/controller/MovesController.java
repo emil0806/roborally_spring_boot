@@ -39,8 +39,7 @@ public class MovesController {
 
     @PostMapping
     public ResponseEntity<Moves> saveMoves(@PathVariable Long gameID, @RequestBody Moves moves) {
-        moves.setGameID(gameID); // Sæt gameID manuelt
-
+        moves.setGameID(gameID);
         Moves savedMoves = movesRepository.save(moves);
         return ResponseEntity.ok(savedMoves);
     }

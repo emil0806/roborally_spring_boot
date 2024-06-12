@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface MovesRepository extends JpaRepository<Moves, Long> {
     Moves findByPlayerID(int playerID);
-    List<Moves> findByGameID(Long gameID); // Opdateret til at søge efter gameID som en almindelig kolonne
+    List<Moves> findByGameID(Long gameID);
 }
