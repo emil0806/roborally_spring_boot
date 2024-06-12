@@ -18,10 +18,8 @@ import java.util.List;
 public class Moves {
 
     @Id
-    /*@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long moveID;*/
-
     private int playerID;
+    private Long gameID;
 
     @Column(name = "chosen_moves")
     private String chosenMoves;

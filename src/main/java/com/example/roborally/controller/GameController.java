@@ -47,9 +47,7 @@ public class GameController {
     @GetMapping(value = "/lobby")
     public ResponseEntity<String> listOfGames() {
         Gson gson = new Gson();
-
-        ArrayList<Game> listOfGames = new ArrayList<>(games);
-
+        List<Game> listOfGames = gameRepository.findAll();
         return ResponseEntity.ok().body(gson.toJson(listOfGames));
     }
 
