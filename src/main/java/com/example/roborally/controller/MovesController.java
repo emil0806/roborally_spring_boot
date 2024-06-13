@@ -18,29 +18,42 @@ public class MovesController {
     }
 
     @GetMapping("/{playerID}")
-    public ResponseEntity<Moves> getMovesByPlayerID(@PathVariable Long gameID, @PathVariable int playerID) {
+    public ResponseEntity<String> getMovesByPlayerID(@PathVariable int gameID, @PathVariable int playerID) {
         Moves moves = movesRepository.findByPlayerID(playerID);
-        if (moves != null && moves.getGameID().equals(gameID)) {
-            return ResponseEntity.ok(moves);
+        if (moves != null && moves.getGameID() == gameID) {
+            String response = moves.getPlayerID() + "," + moves.getGameID() + "," + moves.getChosenMoves() + ";";
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping
-    public ResponseEntity<List<Moves>> getAllGameMoves(@PathVariable Long gameID) {
-        List<Moves> movesList = movesRepository.findByGameID(gameID);
+    public ResponseEntity<String> getAllGameMoves(@PathVariable int gameID) {
+        List<Moves> movesList = movesRepository.findByGameID((long) gameID);
         if (!movesList.isEmpty()) {
-            return ResponseEntity.ok(movesList);
+            StringBuilder responseBuilder = new StringBuilder();
+            for (Moves moves : movesList) {
+                responseBuilder.append(moves.getPlayerID())
+                        .append(",")
+                        .append(moves.getGameID())
+                        .append(",")
+                        .append(moves.getChosenMoves())
+                        .append(";");
+            }
+            // Fjern sidste semikolon
+            String response = responseBuilder.substring(0, responseBuilder.length() - 1);
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Moves> saveMoves(@PathVariable Long gameID, @RequestBody Moves moves) {
-        moves.setGameID(gameID);
-        Moves savedMoves = movesRepository.save(moves);
+    public ResponseEntity<Moves> saveMoves(@PathVariable int gameID, @RequestBody String stringMoves) {
+        String[] movesArr = stringMoves.split(":");
+        Moves savedMoves = new Moves(Integer.parseInt(movesArr[0]), Integer.parseInt(movesArr[1]), movesArr[2]);
+        movesRepository.save(savedMoves);
         return ResponseEntity.ok(savedMoves);
     }
 }
