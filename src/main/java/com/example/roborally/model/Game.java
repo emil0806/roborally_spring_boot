@@ -50,5 +50,8 @@ public class Game {
 
     public void incrementTurnID() {
         this.turnID++;
+        if(this.turnID >= this.maxNumberOfPlayers){
+            this.turnID = 0;
+        }
     }
 }

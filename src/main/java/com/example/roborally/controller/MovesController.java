@@ -20,7 +20,7 @@ public class MovesController {
     @GetMapping("/{playerID}")
     public ResponseEntity<Moves> getMovesByPlayerID(@PathVariable int gameID, @PathVariable int playerID) {
         Moves moves = movesRepository.findByPlayerID(playerID);
-        if (moves != null && moves.getGameID() ==gameID) {
+        if (moves != null && moves.getGameID() == gameID) {
             return ResponseEntity.ok(moves);
         } else {
             return ResponseEntity.notFound().build();

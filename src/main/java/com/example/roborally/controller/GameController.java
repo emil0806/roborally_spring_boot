@@ -99,7 +99,7 @@ public class GameController {
         return ResponseEntity.ok(game.getTurnID());
     }
     @PostMapping("/lobby/{gameID}/setTurnID")
-    public ResponseEntity<String> setTurnID(@PathVariable int gameID, @RequestBody String turn) {
+    public ResponseEntity<String> setTurnID(@PathVariable int gameID) {
         Game game = findGame(gameID);
         game.incrementTurnID();
         return ResponseEntity.ok("OK");
@@ -109,11 +109,7 @@ public class GameController {
     public ResponseEntity<Boolean> areAllUsersReady(@PathVariable int id) {
         Game game = findGame(id);
         if (game != null) {
-            if (game.getTurnID() == game.getMaxNumberOfPlayers()) {
-                return ResponseEntity.ok(true);
-            } else {
-                return ResponseEntity.ok(false);
-            }
+            return ResponseEntity.ok(game.getTurnID() == 0);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
         }
@@ -125,5 +121,6 @@ public class GameController {
         game.getPlayers().get(playerID).setStartSpace(Double.parseDouble(startSpace));
         return ResponseEntity.ok("OK");
     }
+
 
 }
