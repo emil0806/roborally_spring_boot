@@ -22,4 +22,6 @@ public class PlayerInfo {
     String name;
 
     String age;
+
+    Double startSpace;
 }

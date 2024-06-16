@@ -65,9 +65,9 @@ public class GameController {
         return ResponseEntity.ok().body(games);
     }
 
-    @GetMapping(value = "/lobby/{id}/players")
-    public ResponseEntity<ArrayList<PlayerInfo>> getPlayers(@PathVariable int id) {
-        Game game = findGame(id);
+    @GetMapping(value = "/lobby/{gameID}/players")
+    public ResponseEntity<ArrayList<PlayerInfo>> getPlayers(@PathVariable int gameID) {
+        Game game = findGame(gameID);
         ArrayList<PlayerInfo> listOfPlayers = new ArrayList<>(game.getPlayers());
         return ResponseEntity.ok().body(listOfPlayers);
     }
@@ -117,6 +117,13 @@ public class GameController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
         }
+    }
+
+    @PostMapping("/lobby/{gameID}/{playerID}/setStartSpace")
+    public ResponseEntity<String> setTurnID(@PathVariable int gameID, @PathVariable int playerID, @RequestBody String startSpace) {
+        Game game = findGame(gameID);
+        game.getPlayers().get(playerID).setStartSpace(Double.parseDouble(startSpace));
+        return ResponseEntity.ok("OK");
     }
 
 }
