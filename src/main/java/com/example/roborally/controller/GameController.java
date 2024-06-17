@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class GameController {
     private GameRepository gameRepository;
     public ArrayList<Game> games = new ArrayList<>();
-    public Game game = new Game();
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -48,7 +47,7 @@ public class GameController {
         return ResponseEntity.ok("OK");
     }
 
-    private Game findGame(int gameID) {
+    public Game findGame(int gameID) {
         return games.stream()
                 .filter(s -> s.getGameID() == gameID)
                 .findFirst()
@@ -158,7 +157,6 @@ public class GameController {
         Game game = findGame(gameID);
         return ResponseEntity.ok(game.getDeletedStartPlace());
     }
-}
 
     @GetMapping("/lobby/{gameID}/allPlayersChosen")
     public ResponseEntity<Boolean> allPlayersChosen(@PathVariable int gameID){
