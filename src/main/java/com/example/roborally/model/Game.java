@@ -30,6 +30,8 @@ public class Game {
 
     private ArrayList<PlayerInfo> players;
 
+    private ArrayList<Moves> moves;
+
     private int turnID;
 
     public Game(String boardName, int numberOfPlayers, int maxNumberOfPlayers, int turnID) {
@@ -38,6 +40,13 @@ public class Game {
         this.maxNumberOfPlayers = maxNumberOfPlayers;
         players = new ArrayList<>();
         this.turnID = turnID;
+    }
+
+    public void addMoves(Moves playerMoves) {
+        if(moves == null) {
+            moves = new ArrayList<>();
+        }
+        moves.add(playerMoves);
     }
 
     public void addPlayer(PlayerInfo playerInfo) {

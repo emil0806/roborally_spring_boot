@@ -1,6 +1,7 @@
 package com.example.roborally.controller;
 
 import com.example.roborally.model.Game;
+import com.example.roborally.model.Moves;
 import com.example.roborally.model.PlayerInfo;
 import com.example.roborally.repository.GameRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -122,5 +123,39 @@ public class GameController {
         return ResponseEntity.ok("OK");
     }
 
+    /*@GetMapping("/{playerID}")
+    public ResponseEntity<Moves> getMovesByPlayerID(@PathVariable int gameID, @PathVariable int playerID) {
+        Moves moves = movesRepository.findByPlayerID(playerID);
+        if (moves != null && moves.getGameID() == gameID) {
+            return ResponseEntity.ok(moves);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
+    @GetMapping
+    public ResponseEntity<List<Moves>> getAllGameMoves(@PathVariable Long gameID) {
+        List<Moves> movesList = movesRepository.findByGameID(gameID);
+        if (!movesList.isEmpty()) {
+            return ResponseEntity.ok(movesList);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }*/
+    @PostMapping("/lobby/{gameID}/moves")
+    public ResponseEntity<String> saveMoves(@PathVariable int gameID, @RequestBody Moves moves) {
+        System.out.println("check");
+        Game game = findGame(gameID);
+        game.addMoves(moves);
+
+        return ResponseEntity.ok("OK");
+    }
+
+    @GetMapping("/lobby/{gameID}/moves")
+    public ResponseEntity<ArrayList<Moves>> getAllMoves(@PathVariable int gameID) {
+        Game game = findGame(gameID);
+        ArrayList<Moves> listOfMoves = new ArrayList<>(game.getMoves());
+
+        return ResponseEntity.ok().body(listOfMoves);
+    }
 }

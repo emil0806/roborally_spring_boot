@@ -6,11 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Entity
-@Table(name = "moves")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,9 +19,6 @@ public class Moves {
     @Id
     private int playerID;
 
-    private int gameID;
-
-    @Column(name = "chosen_moves")
-    private String chosenMoves;
+    private ArrayList<String> chosenMoves;
 
 }
