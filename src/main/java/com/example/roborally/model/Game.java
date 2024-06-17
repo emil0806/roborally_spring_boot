@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -32,6 +33,11 @@ public class Game {
 
     private int turnID;
 
+    private ArrayList<Double> startPlace = new ArrayList<>(Arrays.asList(1.1, 3.0, 4.1, 5.1, 6.0, 9.1));
+
+    private ArrayList<Double> deletedStartPlace = new ArrayList<>();
+
+
     public Game(String boardName, int numberOfPlayers, int maxNumberOfPlayers, int turnID) {
         this.boardName = boardName;
         this.numberOfPlayers = numberOfPlayers;
@@ -46,6 +52,11 @@ public class Game {
         }
         players.add(playerInfo);
         numberOfPlayers++;
+    }
+
+    public void deleteStartSpace(Double removePlace){
+        deletedStartPlace.add(removePlace);
+        startPlace.remove(removePlace);
     }
 
     public void incrementTurnID() {
