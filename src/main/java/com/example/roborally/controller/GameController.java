@@ -149,4 +149,17 @@ public class GameController {
             return ResponseEntity.ok(false);
         }
     }
+
+    @GetMapping("/lobby/{gameID}/moves/{playerID}")
+    public ResponseEntity<ArrayList<String>> getMovesByPlayerID(@PathVariable int gameID, @PathVariable int playerID){
+        Game game = findGame(gameID);
+        ArrayList<String> playerMoves = new ArrayList<>();
+        for(int i = 0; i < game.getMoves().size(); i++) {
+            if(game.getMoves().get(i).getPlayerID() == playerID) {
+                playerMoves = game.getMoves().get(i).getChosenMoves();
+            }
+        }
+        return ResponseEntity.ok(playerMoves);
+    }
+
 }
