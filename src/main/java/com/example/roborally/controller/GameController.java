@@ -5,16 +5,11 @@ import com.example.roborally.model.Moves;
 import com.example.roborally.model.PlayerInfo;
 import com.example.roborally.repository.GameRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class GameController {
@@ -139,6 +134,31 @@ public class GameController {
 
         return ResponseEntity.ok().body(listOfMoves);
     }
+    @GetMapping(value = "/lobby/{gameID}/{playerID}/getStartSpace")
+    public ResponseEntity<Double> getStartSpace(@PathVariable int gameID, @PathVariable int playerID) {
+        Game game = findGame(gameID);
+        return ResponseEntity.ok(game.getPlayers().get(playerID).getStartSpace());
+    }
+
+    @PostMapping("/lobby/{gameID}/setAvailableStartSpaces")
+    public ResponseEntity<String> setAvailableStartSpaces(@PathVariable int gameID, @RequestBody String startSpace) {
+        Game game = findGame(gameID);
+        game.deleteStartSpace(Double.valueOf(startSpace));
+        return ResponseEntity.ok("ok");
+    }
+
+    @GetMapping(value = "/lobby/{gameID}/getAvailableStartSpaces")
+    public ResponseEntity<ArrayList<Double>> getAvailableStartSpaces(@PathVariable int gameID) {
+        Game game = findGame(gameID);
+        return ResponseEntity.ok(game.getStartPlace());
+    }
+
+    @GetMapping(value = "/lobby/{gameID}/getRemovedStartingPlace")
+    public ResponseEntity<ArrayList<Double>>getRemovedStartingPlace (@PathVariable int gameID) {
+        Game game = findGame(gameID);
+        return ResponseEntity.ok(game.getDeletedStartPlace());
+    }
+}
 
     @GetMapping("/lobby/{gameID}/allPlayersChosen")
     public ResponseEntity<Boolean> allPlayersChosen(@PathVariable int gameID){
