@@ -123,25 +123,6 @@ public class GameController {
         return ResponseEntity.ok("OK");
     }
 
-    /*@GetMapping("/{playerID}")
-    public ResponseEntity<Moves> getMovesByPlayerID(@PathVariable int gameID, @PathVariable int playerID) {
-        Moves moves = movesRepository.findByPlayerID(playerID);
-        if (moves != null && moves.getGameID() == gameID) {
-            return ResponseEntity.ok(moves);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Moves>> getAllGameMoves(@PathVariable Long gameID) {
-        List<Moves> movesList = movesRepository.findByGameID(gameID);
-        if (!movesList.isEmpty()) {
-            return ResponseEntity.ok(movesList);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }*/
     @PostMapping("/lobby/{gameID}/moves")
     public ResponseEntity<String> saveMoves(@PathVariable int gameID, @RequestBody Moves moves) {
         System.out.println("check");
@@ -157,5 +138,15 @@ public class GameController {
         ArrayList<Moves> listOfMoves = new ArrayList<>(game.getMoves());
 
         return ResponseEntity.ok().body(listOfMoves);
+    }
+
+    @GetMapping("/lobby/{gameID}/allPlayersChosen")
+    public ResponseEntity<Boolean> allPlayersChosen(@PathVariable int gameID){
+        Game game = findGame(gameID);
+        if(game.getMaxNumberOfPlayers() == game.getMoves().size()){
+            return ResponseEntity.ok(true);
+        } else{
+            return ResponseEntity.ok(false);
+        }
     }
 }
