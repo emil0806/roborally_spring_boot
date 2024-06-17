@@ -36,10 +36,9 @@ public class MovesController {
             return ResponseEntity.notFound().build();
         }
     }
-
     @PostMapping
     public ResponseEntity<Moves> saveMoves(@PathVariable int gameID, @RequestBody Moves moves) {
-        moves.setGameID(gameID); // Sæt gameID manuelt
+        moves.setGameID(gameID);
 
         Moves savedMoves = movesRepository.save(moves);
         return ResponseEntity.ok(savedMoves);

@@ -19,6 +19,7 @@ public class Moves {
 
     @Id
     private int playerID;
+
     private int gameID;
 
     @Column(name = "chosen_moves")
