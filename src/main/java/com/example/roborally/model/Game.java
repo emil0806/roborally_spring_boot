@@ -39,6 +39,8 @@ public class Game {
 
     private ArrayList<Double> deletedStartPlace = new ArrayList<>();
 
+    private String latestInteraction = "";
+
 
     public Game(String boardName, int numberOfPlayers, int maxNumberOfPlayers, int turnID) {
         this.boardName = boardName;
