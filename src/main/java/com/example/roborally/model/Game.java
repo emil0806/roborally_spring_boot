@@ -76,4 +76,7 @@ public class Game {
             this.turnID = 0;
         }
     }
+    public  void clearMoves() {
+        this.moves = new ArrayList<>();
+    }
 }
