@@ -119,7 +119,6 @@ public class GameController {
 
     @PostMapping("/lobby/{gameID}/moves")
     public ResponseEntity<String> saveMoves(@PathVariable int gameID, @RequestBody Moves moves) {
-        System.out.println("check");
         Game game = findGame(gameID);
         game.addMoves(moves);
 
@@ -208,5 +207,12 @@ public class GameController {
         } else {
             return ResponseEntity.ok(true);
         }
+    }
+
+    @DeleteMapping("/lobby/{gameID}/clearAllMoves")
+    public ResponseEntity<String> clearAllMoves(@PathVariable int gameID) {
+        Game game = findGame(gameID);
+        game.clearMoves();
+        return ResponseEntity.ok("ok");
     }
 }
