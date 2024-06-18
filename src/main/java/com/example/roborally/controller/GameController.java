@@ -180,4 +180,33 @@ public class GameController {
         return ResponseEntity.ok(playerMoves);
     }
 
+    @PostMapping("/lobby/{gameID}/interaction")
+    public ResponseEntity<String> setInteraction(@PathVariable int gameID, @RequestBody String interaction) {
+        Game game = findGame(gameID);
+        game.setLatestInteraction(interaction);
+        return ResponseEntity.ok("OK");
+    }
+
+    @GetMapping("/lobby/{gameID}/interaction")
+    public ResponseEntity<String> getInteraction(@PathVariable int gameID) {
+        Game game = findGame(gameID);
+        return ResponseEntity.ok(game.getLatestInteraction());
+    }
+
+    @DeleteMapping("/lobby/{gameID}/interaction")
+    public ResponseEntity<String> deleteInteraction(@PathVariable int gameID) {
+        Game game = findGame(gameID);
+        game.setLatestInteraction("");
+        return ResponseEntity.ok("OK");
+    }
+
+    @GetMapping("/lobby/{gameID}/waitForInteraction")
+    public ResponseEntity<Boolean> waitForInteraction(@PathVariable int gameID) {
+        Game game = findGame(gameID);
+        if(game.getLatestInteraction().isEmpty()) {
+            return ResponseEntity.ok(false);
+        } else {
+            return ResponseEntity.ok(true);
+        }
+    }
 }

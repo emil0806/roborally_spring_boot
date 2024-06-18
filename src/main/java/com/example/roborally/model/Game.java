@@ -35,9 +35,11 @@ public class Game {
 
     private int turnID;
 
-    private ArrayList<Double> startPlace = new ArrayList<>(Arrays.asList(1.1, 3.0, 4.1, 5.1, 6.0, 9.1));
+    private ArrayList<Double> startPlace = new ArrayList<>(Arrays.asList(0.3, 0.6, 1.1, 1.4, 1.5, 1.8));
 
     private ArrayList<Double> deletedStartPlace = new ArrayList<>();
+
+    private String latestInteraction = "";
 
 
     public Game(String boardName, int numberOfPlayers, int maxNumberOfPlayers, int turnID) {
