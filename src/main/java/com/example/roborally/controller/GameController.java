@@ -211,6 +211,7 @@ public class GameController {
         Game game = findGame(gameID);
         if(game.getNumberOfPlayers() == game.getPlayersReady()) {
             game.clearMoves();
+            game.setPlayersReady(0);
         }
         return ResponseEntity.ok("ok");
     }
