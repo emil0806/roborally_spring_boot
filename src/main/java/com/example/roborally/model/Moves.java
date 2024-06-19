@@ -20,5 +20,4 @@ public class Moves {
     private int playerID;
 
     private ArrayList<String> chosenMoves;
-
 }

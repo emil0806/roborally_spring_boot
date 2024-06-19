@@ -179,40 +179,63 @@ public class GameController {
         return ResponseEntity.ok(playerMoves);
     }
 
-    @PostMapping("/lobby/{gameID}/interaction")
-    public ResponseEntity<String> setInteraction(@PathVariable int gameID, @RequestBody String interaction) {
+    @PostMapping("/lobby/{gameID}/moves/{playerID}/{step}/setInteraction")
+    public ResponseEntity<String> setInteraction(@PathVariable int gameID, @PathVariable int playerID, @PathVariable int step, @RequestBody String interaction) {
         Game game = findGame(gameID);
-        game.setLatestInteraction(interaction);
-        return ResponseEntity.ok("OK");
-    }
-
-    @GetMapping("/lobby/{gameID}/interaction")
-    public ResponseEntity<String> getInteraction(@PathVariable int gameID) {
-        Game game = findGame(gameID);
-        return ResponseEntity.ok(game.getLatestInteraction());
-    }
-
-    @DeleteMapping("/lobby/{gameID}/interaction")
-    public ResponseEntity<String> deleteInteraction(@PathVariable int gameID) {
-        Game game = findGame(gameID);
-        game.setLatestInteraction("");
-        return ResponseEntity.ok("OK");
-    }
-
-    @GetMapping("/lobby/{gameID}/waitForInteraction")
-    public ResponseEntity<Boolean> waitForInteraction(@PathVariable int gameID) {
-        Game game = findGame(gameID);
-        if(game.getLatestInteraction().isEmpty()) {
-            return ResponseEntity.ok(false);
-        } else {
-            return ResponseEntity.ok(true);
+        for(int i = 0; i < game.getMoves().size(); i++) {
+            if(game.getMoves().get(i).getPlayerID() == playerID) {
+                game.getMoves().get(i).getChosenMoves().set(step, interaction);
+            }
         }
+        return ResponseEntity.ok("OK");
+    }
+
+    @GetMapping("/lobby/{gameID}/moves/{playerID}/waitForInteraction/{step}")
+    public ResponseEntity<Boolean> waitForInteraction(@PathVariable int gameID, @PathVariable int playerID, @PathVariable int step) {
+        Game game = findGame(gameID);
+        for(Moves moves : game.getMoves()) {
+            if(moves.getPlayerID() == playerID) {
+                if(!(moves.getChosenMoves().get(step).equals("Left OR Right"))) {
+                    return ResponseEntity.ok(true);
+
+                } else {
+                    return ResponseEntity.ok(false);
+                }
+            }
+        }
+        return ResponseEntity.ok(false);
     }
 
     @DeleteMapping("/lobby/{gameID}/clearAllMoves")
     public ResponseEntity<String> clearAllMoves(@PathVariable int gameID) {
         Game game = findGame(gameID);
-        game.clearMoves();
+        if(game.getNumberOfPlayers() == game.getPlayersReady()) {
+            game.clearMoves();
+        }
         return ResponseEntity.ok("ok");
+    }
+
+    @PostMapping("/lobby/{gameID}/playersReady")
+    public ResponseEntity<String> setPlayersReady(@PathVariable int gameID, @RequestBody String playersReady) {
+        Game game = findGame(gameID);
+        game.setPlayersReady(Integer.parseInt(playersReady));
+        return ResponseEntity.ok("OK");
+    }
+
+    @PutMapping("/lobby/{gameID}/playersReady")
+    public ResponseEntity<String> incrementPlayersReady(@PathVariable int gameID) {
+        Game game = findGame(gameID);
+        game.incrementPlayersReady();
+        return ResponseEntity.ok("OK");
+    }
+
+    @GetMapping("/lobby/{gameID}/playersReady")
+    public ResponseEntity<Boolean> areAllPlayersReady(@PathVariable int gameID) {
+        Game game = findGame(gameID);
+        if(game.getPlayersReady() == game.getNumberOfPlayers()) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.ok(false);
+        }
     }
 }
