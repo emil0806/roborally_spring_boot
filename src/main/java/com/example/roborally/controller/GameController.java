@@ -239,4 +239,36 @@ public class GameController {
             return ResponseEntity.ok(false);
         }
     }
+
+//    @GetMapping("/lobby/{gameID}/round")
+//    public ResponseEntity<Integer> getRoundNumber(@PathVariable int gameID){
+//        Game game = findGame(gameID);
+//        return ResponseEntity.ok(game.getRound());
+//    }
+//
+//    @PutMapping("/lobby/{gameID}/round")
+//    public ResponseEntity<String> incrementRoundNumber(@PathVariable int gameID) {
+//        Game game = findGame(gameID);
+//        game.incrementRound();
+//        return ResponseEntity.ok("OK");
+//    }
+//
+//    @PutMapping("/lobby/{gameID}/{playerID}/round")
+//    public ResponseEntity<String> incrementPlayerRoundNumber(@PathVariable int gameID, @PathVariable int playerID) {
+//        Game game = findGame(gameID);
+//        game.getPlayers().get(playerID).incrementPlayerRound();
+//        return ResponseEntity.ok("OK");
+//    }
+//
+//    @GetMapping("/lobby/{gameID}/round/allReady")
+//    public ResponseEntity<Boolean> allPlayersAtSameRound(@PathVariable int gameID){
+//        Game game = findGame(gameID);
+//        Boolean allAtSameRound = true;
+//        for(int i = 0; i < game.getPlayers().size(); i++){
+//            if(game.getPlayers().get(i).getRound() != game.getRound()){
+//                allAtSameRound = false;
+//            }
+//        }
+//        return ResponseEntity.ok(allAtSameRound);
+//    }
 }
