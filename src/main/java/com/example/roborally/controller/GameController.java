@@ -43,8 +43,12 @@ public class GameController {
     @PostMapping("/lobby/{id}")
     public ResponseEntity<String> joinGame(@PathVariable int id, @RequestBody PlayerInfo playerInfo) {
         Game game = findGame(id);
-        game.addPlayer(playerInfo);
-        return ResponseEntity.ok("OK");
+        if(game.getNumberOfPlayers() != game.getMaxNumberOfPlayers()) {
+            game.addPlayer(playerInfo);
+            return ResponseEntity.ok("OK");
+        } else {
+            return ResponseEntity.ok("Could not join game");
+        }
     }
 
     public Game findGame(int gameID) {
