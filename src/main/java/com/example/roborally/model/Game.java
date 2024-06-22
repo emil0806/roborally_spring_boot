@@ -40,7 +40,7 @@ public class Game {
     private ArrayList<Double> deletedStartPlace = new ArrayList<>();
 
     private int playersReady = 0;
-    //private int round = 0;
+    private int round = 0;
 
     public Game(String boardName, int numberOfPlayers, int maxNumberOfPlayers, int turnID) {
         this.boardName = boardName;
@@ -83,7 +83,7 @@ public class Game {
     public void incrementPlayersReady() {
         this.playersReady++;
     }
-//    public void incrementRound() {
-//        this.round++;
-//    }
+    public void incrementRound() {
+        this.round++;
+    }
 }

@@ -25,9 +25,9 @@ public class PlayerInfo {
 
     Double startSpace;
 
-//    int round;
-//
-//    public void incrementPlayerRound() {
-//        this.round++;
-//    }
+    int round;
+
+    public void incrementPlayerRound() {
+        this.round++;
+    }
 }
