@@ -215,6 +215,7 @@ public class GameController {
         Game game = findGame(gameID);
         if(game.getNumberOfPlayers() == game.getPlayersReady()) {
             game.clearMoves();
+            game.incrementRound();
             game.setPlayersReady(0);
         }
         return ResponseEntity.ok("ok");
@@ -267,12 +268,11 @@ public class GameController {
     @GetMapping("/lobby/{gameID}/round/allReady")
     public ResponseEntity<Boolean> allPlayersAtSameRound(@PathVariable int gameID){
         Game game = findGame(gameID);
-        Boolean allAtSameRound = true;
-        for(int i = 0; i < game.getPlayers().size(); i++){
-            if(game.getPlayers().get(i).getRound() != game.getRound()){
-                allAtSameRound = false;
+        for(PlayerInfo player : game.getPlayers()){
+            if(player.getRound() != game.getRound()){
+                return ResponseEntity.ok(false);
             }
         }
-        return ResponseEntity.ok(allAtSameRound);
+        return ResponseEntity.ok(true);
     }
 }
