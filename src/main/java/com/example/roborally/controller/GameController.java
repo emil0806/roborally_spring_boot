@@ -43,8 +43,12 @@ public class GameController {
     @PostMapping("/lobby/{id}")
     public ResponseEntity<String> joinGame(@PathVariable int id, @RequestBody PlayerInfo playerInfo) {
         Game game = findGame(id);
-        game.addPlayer(playerInfo);
-        return ResponseEntity.ok("OK");
+        if(game.getNumberOfPlayers() != game.getMaxNumberOfPlayers()) {
+            game.addPlayer(playerInfo);
+            return ResponseEntity.ok("OK");
+        } else {
+            return ResponseEntity.ok("Could not join game");
+        }
     }
 
     public Game findGame(int gameID) {
@@ -211,6 +215,7 @@ public class GameController {
         Game game = findGame(gameID);
         if(game.getNumberOfPlayers() == game.getPlayersReady()) {
             game.clearMoves();
+            game.incrementRound();
             game.setPlayersReady(0);
         }
         return ResponseEntity.ok("ok");
@@ -238,5 +243,36 @@ public class GameController {
         } else {
             return ResponseEntity.ok(false);
         }
+    }
+
+    @GetMapping("/lobby/{gameID}/round")
+    public ResponseEntity<Integer> getRoundNumber(@PathVariable int gameID){
+        Game game = findGame(gameID);
+        return ResponseEntity.ok(game.getRound());
+    }
+
+    @PutMapping("/lobby/{gameID}/round")
+    public ResponseEntity<String> incrementRoundNumber(@PathVariable int gameID) {
+        Game game = findGame(gameID);
+        game.incrementRound();
+        return ResponseEntity.ok("OK");
+    }
+
+    @PutMapping("/lobby/{gameID}/{playerID}/round")
+    public ResponseEntity<String> incrementPlayerRoundNumber(@PathVariable int gameID, @PathVariable int playerID) {
+        Game game = findGame(gameID);
+        game.getPlayers().get(playerID).incrementPlayerRound();
+        return ResponseEntity.ok("OK");
+    }
+
+    @GetMapping("/lobby/{gameID}/round/allReady")
+    public ResponseEntity<Boolean> allPlayersAtSameRound(@PathVariable int gameID){
+        Game game = findGame(gameID);
+        for(PlayerInfo player : game.getPlayers()){
+            if(player.getRound() != game.getRound()){
+                return ResponseEntity.ok(false);
+            }
+        }
+        return ResponseEntity.ok(true);
     }
 }

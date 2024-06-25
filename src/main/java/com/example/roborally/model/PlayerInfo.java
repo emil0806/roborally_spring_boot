@@ -24,4 +24,10 @@ public class PlayerInfo {
     String age;
 
     Double startSpace;
+
+    int round;
+
+    public void incrementPlayerRound() {
+        this.round++;
+    }
 }
